@@ -4,7 +4,7 @@
     "group_name": "com.deloitte",
     "_pkg_name": "{{ cookiecutter.project_name|lower|replace(' ', '') }}",
     "_copy_without_render": "/templates/{{ cookiecutter.project_name.lower().replace(' ', '-') }}",
-    "db": ["mysql","mongoDb", "postgreSql", "oracleDb"],
+    "db": ["h2Db", "mysql", "mongoDb", "postgreSql", "oracleDb"],
     "spring_version": ["2.7.8", "3.0.2"],
     "java_version": [8,11,17,19],
     "_read_from_file": false,

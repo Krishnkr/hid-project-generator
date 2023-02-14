@@ -21,3 +21,9 @@ Use the below command inorder to run:
 Use the below command to run in debug mode:
 
 `cookiecutter <project-name> -v`
+
+### To access Swagger UI Use below URL
+http://localhost:8080/swagger-ui/index.html
+
+### To access h2 console use below URL
+http://localhost:8080/h2-console/

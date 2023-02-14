@@ -36,6 +36,11 @@ def setapplicationproperties(db, repo, app_folder):
                 for line in oracle:
                     appFile.write(line)
             oracle.close()
+        else:
+            with open(repo+"/h2Db.txt", "r") as h2Db:
+                for line in h2Db:
+                    appFile.write(line)
+            h2Db.close()
         appFile.close()
 
 def main():
