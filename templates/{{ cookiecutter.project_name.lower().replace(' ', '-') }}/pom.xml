@@ -11,7 +11,7 @@
     <artifactId>{{ cookiecutter.project_name|lower|replace(' ', '-') }}</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <description>{{ cookiecutter.project_name|lower|replace(' ', '-') }} Created from hid-project-generator</description>
+    <description>{{ cookiecutter.project_name|lower|replace(' ', '-') }} created from hid-project-generator</description>
     <name>{{ cookiecutter.project_name|lower|replace(' ', '-') }}</name>
 
     <properties>
@@ -73,7 +73,16 @@
         <dependency>
             <groupId>{{ cookiecutter._dependency_repo[dependency|string][0] }}</groupId>
             <artifactId>{{ cookiecutter._dependency_repo[dependency|string][1] }}</artifactId>
-            {%- if cookiecutter._dependency_repo[dependency|string]|length > 2 %}<scope>{{ cookiecutter._dependency_repo[dependency|string][2] }}</scope>{%- endif %}
+            {%- if cookiecutter._dependency_repo[dependency|string]|length > 2 %}
+                {%- if cookiecutter._dependency_repo[dependency|string][2] in ["compile", "provided", "runtime", "test", "system", "import"] %}
+            <scope>{{ cookiecutter._dependency_repo[dependency|string][2] }}</scope>
+                {%- else %}
+            <version>{{ cookiecutter._dependency_repo[dependency|string][2] }}</version>
+                {%- endif %}
+            {%- endif %}
+            {%- if cookiecutter._dependency_repo[dependency|string]|length > 3 %}
+            <scope>{{ cookiecutter._dependency_repo[dependency|string][3] }}</scope>
+            {%- endif %}
         </dependency>
         {% endfor %}
     </dependencies>
