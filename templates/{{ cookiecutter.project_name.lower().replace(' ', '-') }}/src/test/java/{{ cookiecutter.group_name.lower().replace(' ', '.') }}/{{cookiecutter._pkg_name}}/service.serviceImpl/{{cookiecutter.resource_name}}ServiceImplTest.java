@@ -2,6 +2,7 @@ package com.deloitte.{{cookiecutter._pkg_name}}.service.serviceImpl;
 
 import com.deloitte.{{cookiecutter._pkg_name}}.domain.{{cookiecutter.resource_name}};
 import com.deloitte.{{cookiecutter._pkg_name}}.repository.{{cookiecutter.resource_name}}Repository;
+import com.deloitte.{{cookiecutter._pkg_name}}.exception.ResourceNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -9,6 +10,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,8 +19,10 @@ import java.util.Optional;
 
 import static com.deloitte.{{cookiecutter._pkg_name}}.util.{{cookiecutter.resource_name}}TestUtil.create{{cookiecutter.resource_name}};
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+
 
 @ExtendWith(MockitoExtension.class)
 class {{cookiecutter.resource_name}}ServiceImplTest {
@@ -52,6 +57,9 @@ class {{cookiecutter.resource_name}}ServiceImplTest {
 
     @Test
     void delete{{cookiecutter.resource_name}}ById() {
+        {{cookiecutter.resource_name}} {{cookiecutter.resource_name|lower}} = create{{cookiecutter.resource_name}}(1L,"name");
+        Mockito.when({{cookiecutter.resource_name|lower}}Repository.findById(Mockito.anyLong()))
+        .thenReturn(Optional.of({{cookiecutter.resource_name|lower}}));
         Mockito.doNothing()
                 .when({{cookiecutter.resource_name|lower}}Repository).deleteById(Mockito.any(Long.class));
 
@@ -89,4 +97,30 @@ class {{cookiecutter.resource_name}}ServiceImplTest {
 
         Assertions.assertEquals({{cookiecutter.resource_name|lower}}.get{{cookiecutter.resource_name}}Name(),{{cookiecutter.resource_name|lower}}1.get{{cookiecutter.resource_name}}Name());
     }
+
+    @Test
+    void update{{cookiecutter.resource_name}}Failure() {
+            {{cookiecutter.resource_name}} {{cookiecutter.resource_name|lower}} = create{{cookiecutter.resource_name}}(1L,"name");
+            {{cookiecutter.resource_name|lower}}Service.save{{cookiecutter.resource_name}}({{cookiecutter.resource_name|lower}});
+            ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
+        () -> {{cookiecutter.resource_name|lower}}Service.update{{cookiecutter.resource_name}}(2L,{{cookiecutter.resource_name|lower}}));
+
+        assertEquals("{{cookiecutter.resource_name}} Not Found", resourceNotFoundException.getMessage());
+        }
+
+    @Test
+    void get{{cookiecutter.resource_name}}ByIdFailure() {
+            ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
+        () -> {{cookiecutter.resource_name|lower}}Service.get{{cookiecutter.resource_name}}ById(anyLong()));
+
+        assertEquals("{{cookiecutter.resource_name}} Not Found", resourceNotFoundException.getMessage());
+        }
+
+    @Test
+    void delete{{cookiecutter.resource_name}}ByIdFailure() {
+            ResourceNotFoundException resourceNotFoundException = assertThrows(ResourceNotFoundException.class,
+        () -> {{cookiecutter.resource_name|lower}}Service.delete{{cookiecutter.resource_name}}ById(anyLong()));
+
+        assertEquals("{{cookiecutter.resource_name}} Not Found", resourceNotFoundException.getMessage());
+        }
 }
