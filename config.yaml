@@ -1,10 +1,23 @@
 default_context:
-  project_name: "ProjectGenerator"
+#  Provide the Project name which you wanted to create
+  project_name: "project broadcast"
+
+#  Please don't change this
   _pkg_name: "{{ cookiecutter.project_name|lower|replace(' ', '') }}"
+
+#  Please don't change this
   _read_from_file: true
+
+#  Provide the Spring version which you wanted to use for your project from ["2.7.8", "3.0.2"]
   spring_version: "2.7.8"
+
+#  Provide the Java version which you wanted to use for your project from [8,11,17,19]
   java_version: 19
-  db: mysql
+
+#  Provide the DB name which you are going to use for your project from ["h2Db", "mysql", "mongoDb", "postgreSql", "oracleDb"]
+  db: h2Db
+
+#  Provide all the required dependency for your project
   _dependency:
     - h2
     - lombok
@@ -12,6 +25,10 @@ default_context:
     - jpa
     - persistence
     - jdbc
+#    - TODO handle springdoc -openapi-ui here
+#    - springdoc-openapi-ui
+
+#  Provide all the resource Name which you are going to use in your project
   _resources:
     - Users
     - Customers

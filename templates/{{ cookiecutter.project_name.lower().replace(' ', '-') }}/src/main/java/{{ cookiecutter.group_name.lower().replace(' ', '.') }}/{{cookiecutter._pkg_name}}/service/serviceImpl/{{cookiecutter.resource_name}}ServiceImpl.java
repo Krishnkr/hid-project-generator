@@ -27,8 +27,8 @@ public class {{cookiecutter.resource_name}}ServiceImpl implements {{cookiecutter
     public {{cookiecutter.resource_name}} update{{cookiecutter.resource_name}}(Long id, {{cookiecutter.resource_name}} {{cookiecutter.resource_name|lower}}) {
         {{cookiecutter.resource_name}} {{cookiecutter.resource_name|lower}}Obj = {{cookiecutter.resource_name|lower}}Repository.findById(id)
                                        .orElseThrow(() -> new ResourceNotFoundException("{{cookiecutter.resource_name}} Not Found"));
-        //update the required fields
-        return {{cookiecutter.resource_name|lower}}Repository.save({{cookiecutter.resource_name|lower}});
+        {{cookiecutter.resource_name|lower}}Obj.set{{cookiecutter.resource_name | title}}Name({{cookiecutter.resource_name|lower}}.get{{cookiecutter.resource_name | title}}Name());
+        return {{cookiecutter.resource_name|lower}}Repository.save({{cookiecutter.resource_name|lower}}Obj);
     }
 
     @Override

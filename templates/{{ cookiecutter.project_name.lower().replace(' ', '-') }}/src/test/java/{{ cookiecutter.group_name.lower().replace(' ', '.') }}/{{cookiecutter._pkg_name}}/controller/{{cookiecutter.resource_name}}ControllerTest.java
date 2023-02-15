@@ -2,6 +2,7 @@ package com.deloitte.{{cookiecutter._pkg_name}}.controller;
 
 import com.deloitte.{{cookiecutter._pkg_name}}.domain.{{cookiecutter.resource_name}};
 import com.deloitte.{{cookiecutter._pkg_name}}.service.{{cookiecutter.resource_name}}Service;
+import com.deloitte.{{cookiecutter._pkg_name}}.exception.ResourceNotFoundException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -21,7 +22,10 @@ import static com.deloitte.{{cookiecutter._pkg_name}}.util.{{cookiecutter.resour
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest({{cookiecutter.resource_name}}Controller.class)
@@ -47,22 +51,6 @@ class {{cookiecutter.resource_name}}ControllerTest {
         {{cookiecutter.resource_name|lower}}List.add(create{{cookiecutter.resource_name}}(3L,"name3"));
     }
 
-//    @Test
-//    void saveCustomerTestFailure() throws Exception {
-//        when(customerService.saveCustomer(any(Customer.class)))
-//                .thenThrow(HttpServerErrorException.InternalServerError.class);
-//
-//        JSONObject jsonObject = new JSONObject();
-//
-//        RequestBuilder requestBuilder = post("/customer")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .content(String.valueOf(jsonObject));
-//
-//        MvcResult mvcResult = mockMvc.perform(requestBuilder).andReturn();
-//
-//        MockHttpServletResponse response = mvcResult.getResponse();
-//        Assertions.assertEquals(HttpStatus.INTERNAL_SERVER_ERROR,response.getStatus());
-//    }
 
     @Test
     public void get{{cookiecutter.resource_name}}Test() throws Exception {
@@ -121,5 +109,32 @@ class {{cookiecutter.resource_name}}ControllerTest {
                 .when({{cookiecutter.resource_name|lower}}Service).delete{{cookiecutter.resource_name}}ById(any(Long.class));
         mockMvc.perform(get("/{{cookiecutter.resource_name|lower}}/{id}",1L))
         .andExpectAll(status().isOk());
-    }
+        }
+    @Test
+    public void delete{{cookiecutter.resource_name}}TestFailure()throws Exception{
+
+        doThrow(new ResourceNotFoundException("{{cookiecutter.resource_name}} Not Found"))
+        .when({{cookiecutter.resource_name|lower}}Service).delete{{cookiecutter.resource_name}}ById(any(Long.class));
+        mockMvc.perform(delete("/{{cookiecutter.resource_name|lower}}/{id}",1L))
+        .andExpectAll(status().is4xxClientError());
+        }
+
+    @Test
+    public void update{{cookiecutter.resource_name}}TestFailure()throws Exception{
+
+        doThrow(new ResourceNotFoundException("{{cookiecutter.resource_name}} Not Found"))
+        .when({{cookiecutter.resource_name|lower}}Service).update{{cookiecutter.resource_name}}(1L,{{cookiecutter.resource_name|lower}});
+        mockMvc.perform(put("/{{cookiecutter.resource_name|lower}}/{id}",1L))
+        .andExpectAll(status().is4xxClientError());
+        }
+
+    @Test
+    public void get{{cookiecutter.resource_name}}ByIdTestFailure()throws Exception{
+
+        doThrow(new ResourceNotFoundException("{{cookiecutter.resource_name}} Not Found"))
+        .when({{cookiecutter.resource_name|lower}}Service).get{{cookiecutter.resource_name}}ById(1L);
+        mockMvc.perform(get("/{{cookiecutter.resource_name|lower}}/{id}",1L))
+        .andExpectAll(status().is4xxClientError());
+        }
+
 }
