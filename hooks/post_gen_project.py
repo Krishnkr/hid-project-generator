@@ -44,7 +44,6 @@ def setapplicationproperties(db, repo, app_folder):
         appFile.close()
 
 def main():
-    yaml_file = "../hid-project-generator/config.yaml"
     dependency_yaml_file = "../hid-project-generator/dependency.yaml"
 
     project_name = "{{- cookiecutter.project_name|trim|lower|replace(' ', '-') -}}"
@@ -83,6 +82,7 @@ def main():
 
     templates_repo = "{{ cookiecutter._templates_repo }}"
     template_dir = os.path.join("templates")
+    dependency.append("{{ cookiecutter.db }}")
 
     for resource in resources_name :
         cookiecutter(   templates_repo,

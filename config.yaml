@@ -19,11 +19,6 @@ default_context:
 
 #  Provide all the required dependency for your project
   _dependency:
-    - h2
-    - lombok
-    - spring-web
-    - jpa
-    - persistence
     - jdbc
 #    - TODO handle springdoc -openapi-ui here
 #    - springdoc-openapi-ui
